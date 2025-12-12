@@ -63,7 +63,7 @@ const Hero = () => {
             transition={{ duration: 0.6 }}
             className="flex items-center justify-center gap-2 mb-4"
           >
-            <span className="text-lg text-muted-foreground">Hey</span>
+            <span className="text-lg text-muted-foreground">Olá</span>
             <motion.span
               animate={{ rotate: [0, 20, -20, 20, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
@@ -71,7 +71,7 @@ const Hero = () => {
             >
               👋
             </motion.span>
-            <span className="text-lg text-muted-foreground">I'm</span>
+            <span className="text-lg text-muted-foreground">eu sou</span>
           </motion.div>
 
           {/* Name with stagger animation */}
@@ -81,7 +81,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl md:text-7xl font-bold text-foreground mb-4"
           >
-            {"Your Name".split("").map((char, index) => (
+            {"Lucas Barros".split("").map((char, index) => (
               <motion.span
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
@@ -105,7 +105,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.8 }}
             className="text-muted-foreground mb-2"
           >
-            A passionate
+            Um apaixonado
           </motion.p>
 
           {/* Role with typewriter effect */}
@@ -120,7 +120,7 @@ const Hero = () => {
               WebkitTextFillColor: "transparent",
             }}
           >
-            <TypewriterText text="Frontend Developer" delay={1} />
+            <TypewriterText text="Desenvolvedor Frontend" delay={1} />
           </motion.h2>
 
           {/* Description */}
@@ -130,8 +130,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 1.4 }}
             className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8"
           >
-            specialized in building stunning pixel-perfect interactive websites
-            and applications.
+            especializado em criar sites e aplicações web interativas e 
+            pixel-perfect com as melhores tecnologias.
           </motion.p>
 
           {/* Profile Image with floating animation */}
@@ -213,7 +213,7 @@ const Hero = () => {
               transition={{ duration: 0.5 }}
             />
             <span className="relative z-10 flex items-center gap-2">
-              Resume <Download className="w-4 h-4 group-hover:animate-bounce" />
+              Currículo <Download className="w-4 h-4 group-hover:animate-bounce" />
             </span>
           </motion.button>
         </div>
@@ -234,7 +234,7 @@ const Hero = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              Work & Education
+              Experiência & Educação
             </motion.h2>
             <motion.div
               className="w-16 h-0.5 bg-border"
@@ -259,8 +259,8 @@ const Hero = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            An overview of my professional experience and academic journey, showcasing
-            the skills and knowledge I've gained along the way.
+            Uma visão geral da minha experiência profissional e jornada acadêmica,
+            mostrando as habilidades e conhecimentos que adquiri ao longo do caminho.
           </motion.p>
         </motion.div>
 
@@ -274,39 +274,39 @@ const Hero = () => {
 const Timeline = () => {
   const experiences = [
     {
-      period: "2024 - Present",
-      title: "Junior Front-End Developer",
-      type: "Full Time",
-      company: "Tech Company",
+      period: "2024 - Presente",
+      title: "Desenvolvedor Front-End Júnior",
+      type: "Tempo Integral",
+      company: "Empresa de Tecnologia",
       description:
-        "Designing responsive websites, implementing Figma designs, collaborating on UI/UX, using React, Next.js, and Tailwind CSS.",
+        "Desenvolvendo sites responsivos, implementando designs do Figma, colaborando em UI/UX, usando React e Tailwind CSS.",
       side: "left",
     },
     {
       period: "2022 - 2024",
-      title: "Computer Science Degree",
+      title: "Curso de Ciência da Computação",
       type: "",
-      company: "University Name",
+      company: "Universidade",
       description:
-        "Pursuing a degree in Computer Science, focused on building coding skills and software development.",
+        "Cursando graduação em Ciência da Computação, focado em desenvolver habilidades de programação e desenvolvimento de software.",
       side: "right",
     },
     {
       period: "2021 - 2023",
-      title: "Web Developer",
-      type: "Full Time",
-      company: "Design Studio",
+      title: "Desenvolvedor Web",
+      type: "Tempo Integral",
+      company: "Estúdio de Design",
       description:
-        "Developing and maintaining web applications using HTML, CSS, JavaScript, WordPress and related technologies.",
+        "Desenvolvendo e mantendo aplicações web usando HTML, CSS, JavaScript e tecnologias relacionadas.",
       side: "left",
     },
     {
       period: "2018 - 2021",
-      title: "Bachelor's Degree",
+      title: "Bacharelado",
       type: "",
-      company: "University Name",
+      company: "Universidade",
       description:
-        "Graduated with a Bachelor's in Computer Applications, building the foundation for a career in technology.",
+        "Formado em Bacharelado em Aplicações de Computação, construindo a base para uma carreira em tecnologia.",
       side: "right",
     },
   ];

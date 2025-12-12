@@ -10,8 +10,8 @@ const Footer = () => {
     e.preventDefault();
     if (email) {
       toast({
-        title: "Subscribed!",
-        description: "Thank you for subscribing to the newsletter.",
+        title: "Inscrito!",
+        description: "Obrigado por se inscrever na newsletter.",
       });
       setEmail("");
     }
@@ -35,9 +35,9 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="font-script text-3xl text-foreground mb-4">Your Name</h3>
+            <h3 className="font-script text-3xl text-foreground mb-4">Lucas Barros</h3>
             <p className="text-muted-foreground text-sm">
-              Transforming ideas into reality through design and technology.
+              Transformando ideias em realidade através de design e tecnologia.
             </p>
           </motion.div>
 
@@ -50,17 +50,17 @@ const Footer = () => {
           >
             <div className="flex items-center gap-2 mb-2">
               <span className="text-lg">📬</span>
-              <h4 className="font-semibold text-foreground">Subscribe to Our Newsletter</h4>
+              <h4 className="font-semibold text-foreground">Inscreva-se na Newsletter</h4>
             </div>
             <p className="text-muted-foreground text-sm mb-4">
-              Get the latest updates right in your inbox.
+              Receba as últimas atualizações diretamente na sua caixa de entrada.
             </p>
             <form onSubmit={handleSubscribe} className="flex gap-2">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="Digite seu email"
                 className="flex-1 px-4 py-2 rounded-lg bg-secondary border border-border focus:border-primary focus:outline-none transition-colors text-foreground placeholder:text-muted-foreground"
                 required
               />
@@ -70,7 +70,7 @@ const Footer = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Subscribe
+                Inscrever
               </motion.button>
             </form>
           </motion.div>
@@ -83,7 +83,7 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="md:text-right"
           >
-            <h4 className="font-semibold text-foreground mb-4">Follow me on</h4>
+            <h4 className="font-semibold text-foreground mb-4">Me siga em</h4>
             <div className="flex gap-3 md:justify-end">
               {socialLinks.map((social) => (
                 <motion.a
@@ -104,14 +104,14 @@ const Footer = () => {
         {/* Copyright */}
         <div className="text-center pt-8 border-t border-border">
           <p className="text-muted-foreground text-sm">
-            © 2025 All rights reserved. Designed with{" "}
-            <Heart className="inline-block w-4 h-4 text-primary fill-primary" /> using
+            © 2025 Todos os direitos reservados. Desenvolvido com{" "}
+            <Heart className="inline-block w-4 h-4 text-primary fill-primary" /> usando
             React & Tailwind CSS.
           </p>
           <p className="text-muted-foreground text-sm mt-1">
-            Developed By{" "}
+            Desenvolvido por{" "}
             <a href="#" className="text-primary hover:underline">
-              Your Name
+              Lucas Barros
             </a>
           </p>
         </div>

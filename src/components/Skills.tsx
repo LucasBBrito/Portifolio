@@ -2,25 +2,18 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 const skills = [
-  { name: "React", color: "#61DAFB" },
-  { name: "TypeScript", color: "#3178C6" },
-  { name: "Next.js", color: "#FFFFFF" },
-  { name: "Tailwind", color: "#06B6D4" },
-  { name: "Node.js", color: "#339933" },
-  { name: "Docker", color: "#2496ED" },
-  { name: "Figma", color: "#F24E1E" },
-  { name: "MongoDB", color: "#47A248" },
-  { name: "PostgreSQL", color: "#4169E1" },
-  { name: "Git", color: "#F05032" },
-  { name: "GraphQL", color: "#E10098" },
-  { name: "AWS", color: "#FF9900" },
+  { name: "HTML5", color: "#E34F26", icon: "🌐" },
+  { name: "CSS3", color: "#1572B6", icon: "🎨" },
+  { name: "JavaScript", color: "#F7DF1E", icon: "⚡" },
+  { name: "React", color: "#61DAFB", icon: "⚛️" },
+  { name: "Git", color: "#F05032", icon: "📦" },
 ];
 
 const SkillCard = ({
   skill,
   index,
 }: {
-  skill: { name: string; color: string };
+  skill: { name: string; color: string; icon: string };
   index: number;
 }) => {
   return (
@@ -46,12 +39,12 @@ const SkillCard = ({
 
         <div className="flex items-center gap-3">
           <motion.div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-lg font-bold relative overflow-hidden"
-            style={{ backgroundColor: `${skill.color}20`, color: skill.color }}
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-lg relative overflow-hidden"
+            style={{ backgroundColor: `${skill.color}20` }}
             whileHover={{ rotate: [0, -10, 10, 0] }}
             transition={{ duration: 0.4 }}
           >
-            {skill.name.charAt(0)}
+            {skill.icon}
             {/* Shine effect */}
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"
@@ -132,7 +125,7 @@ const Skills = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          Hover to pause • Click to explore
+          Passe o mouse para pausar
         </motion.p>
       </div>
     </section>
