@@ -4,21 +4,21 @@ import { Code, Smartphone, Palette, Wrench } from "lucide-react";
 const services = [
   {
     icon: Code,
-    title: "Web Development",
+    title: "Desenvolvimento Web",
     description:
-      "Building modern, responsive websites with React, Next.js, and cutting-edge technologies for optimal performance.",
+      "Construindo sites modernos e responsivos com React e tecnologias de ponta para desempenho otimizado.",
   },
   {
     icon: Smartphone,
-    title: "App Development",
+    title: "Desenvolvimento de Apps",
     description:
-      "Creating cross-platform mobile applications with React Native and seamless user experiences.",
+      "Criando aplicações mobile multiplataforma com React Native e experiências de usuário perfeitas.",
   },
   {
     icon: Palette,
-    title: "UI/UX Design",
+    title: "Design UI/UX",
     description:
-      "Designing intuitive interfaces and user experiences that delight and engage your audience.",
+      "Projetando interfaces intuitivas e experiências de usuário que encantam e engajam seu público.",
   },
 ];
 
@@ -66,7 +66,7 @@ const Services = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              What I Do
+              O Que Eu Faço
             </motion.h2>
             <motion.div
               className="w-16 h-0.5 bg-border"
@@ -91,10 +91,10 @@ const Services = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Here are all the services that I provide to my clients. I Hope I offer
-            the service that you are looking for. If you do not find something that
-            you are looking for then please send me an{" "}
-            <a href="mailto:hello@example.com" className="text-primary hover:underline">
+            Aqui estão todos os serviços que ofereço aos meus clientes. Espero oferecer
+            o serviço que você está procurando. Se não encontrar algo que precisa,
+            por favor me envie um{" "}
+            <a href="mailto:lucas@exemplo.com" className="text-primary hover:underline">
               email
             </a>
             .

@@ -15,12 +15,13 @@ const Contact = () => {
   });
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isFormHovered, setIsFormHovered] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon.",
+      title: "Mensagem enviada!",
+      description: "Obrigado por entrar em contato. Retornarei em breve.",
     });
     setFormData({
       name: "",
@@ -35,7 +36,7 @@ const Contact = () => {
 
   const inputVariants = {
     focus: {
-      scale: 1.02,
+      scale: 1.01,
       transition: { duration: 0.2 },
     },
     blur: {
@@ -61,21 +62,17 @@ const Contact = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Have a{" "}
-            <motion.span
+            Tem um{" "}
+            <span
               style={{
                 background: "linear-gradient(135deg, #f97316, #ec4899, #8b5cf6)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{ duration: 5, repeat: Infinity }}
             >
-              Project
-            </motion.span>{" "}
-            in your mind?
+              Projeto
+            </span>{" "}
+            em mente?
           </motion.h2>
           <motion.h3
             className="text-3xl md:text-5xl font-bold mb-6 flex items-center justify-center gap-2"
@@ -84,13 +81,8 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Let's get to work{" "}
-            <motion.span
-              animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
-              transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
-            >
-              <Zap className="w-10 h-10 text-yellow-500" />
-            </motion.span>
+            Vamos trabalhar juntos{" "}
+            <Zap className="w-10 h-10 text-yellow-500" />
           </motion.h3>
           <motion.p
             className="text-muted-foreground max-w-2xl mx-auto mb-8"
@@ -99,9 +91,8 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            I am actively seeking new opportunities and my inbox is always open.
-            Whether you have a question or simply want to say Hello, I will do my
-            best to respond!
+            Estou ativamente buscando novas oportunidades e minha caixa de entrada está sempre aberta.
+            Se você tem uma pergunta ou simplesmente quer dizer olá, farei o meu melhor para responder!
           </motion.p>
           <motion.button
             onClick={() => document.querySelector("#contact-form")?.scrollIntoView({ behavior: "smooth" })}
@@ -113,19 +104,9 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            <motion.span
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-              animate={{ x: ["-100%", "100%"] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-            />
             <span className="relative flex items-center gap-2">
-              Say Hello{" "}
-              <motion.span
-                animate={{ rotate: [0, 20, -20, 20, 0] }}
-                transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
-              >
-                👋
-              </motion.span>
+              Diga Olá{" "}
+              <span>👋</span>
             </span>
           </motion.button>
         </motion.div>
@@ -145,7 +126,7 @@ const Contact = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              Get in Touch
+              Entre em Contato
             </motion.h3>
             <motion.p
               className="text-muted-foreground mb-8"
@@ -154,8 +135,8 @@ const Contact = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              Feel free to reach out! Whether you have a question or just want to
-              drop a message, I'll do my best to get back to you.
+              Sinta-se à vontade para entrar em contato! Se você tem uma pergunta ou
+              apenas quer deixar uma mensagem, farei o meu melhor para responder.
             </motion.p>
 
             <div className="space-y-6">
@@ -176,8 +157,8 @@ const Contact = () => {
                   <MapPin className="w-6 h-6 text-primary" />
                 </motion.div>
                 <div>
-                  <h4 className="font-semibold text-primary">Location</h4>
-                  <p className="text-muted-foreground">Your City, Country</p>
+                  <h4 className="font-semibold text-primary">Localização</h4>
+                  <p className="text-muted-foreground">Brasil</p>
                 </div>
               </motion.div>
 
@@ -199,7 +180,7 @@ const Contact = () => {
                 </motion.div>
                 <div>
                   <h4 className="font-semibold text-primary">Email</h4>
-                  <p className="text-muted-foreground">hello@example.com</p>
+                  <p className="text-muted-foreground">lucas@exemplo.com</p>
                 </div>
               </motion.div>
 
@@ -220,8 +201,8 @@ const Contact = () => {
                   <Phone className="w-6 h-6 text-cyan" />
                 </motion.div>
                 <div>
-                  <h4 className="font-semibold text-cyan">Phone</h4>
-                  <p className="text-muted-foreground">+1 234 567 8900</p>
+                  <h4 className="font-semibold text-cyan">Telefone</h4>
+                  <p className="text-muted-foreground">+55 11 99999-9999</p>
                 </div>
               </motion.div>
             </div>
@@ -233,15 +214,20 @@ const Contact = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.7, type: "spring" }}
+            onMouseEnter={() => setIsFormHovered(true)}
+            onMouseLeave={() => setIsFormHovered(false)}
           >
             <motion.form
               onSubmit={handleSubmit}
               className="space-y-4 p-6 rounded-2xl bg-card border border-border relative overflow-hidden"
-              whileHover={{
-                boxShadow: "0 20px 40px -20px hsl(var(--primary) / 0.2)",
+              animate={{
+                boxShadow: isFormHovered
+                  ? "0 20px 40px -20px hsl(var(--primary) / 0.2)"
+                  : "0 0 0 0 transparent",
               }}
+              transition={{ duration: 0.3 }}
             >
-              {/* Animated border */}
+              {/* Animated border - only on hover */}
               <motion.div
                 className="absolute inset-0 rounded-2xl pointer-events-none"
                 style={{
@@ -249,12 +235,12 @@ const Contact = () => {
                   backgroundSize: "200% 100%",
                 }}
                 animate={{
-                  backgroundPosition: ["200% 0%", "-200% 0%"],
+                  backgroundPosition: isFormHovered ? ["200% 0%", "-200% 0%"] : "200% 0%",
+                  opacity: isFormHovered ? 1 : 0,
                 }}
                 transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "linear",
+                  backgroundPosition: { duration: 4, repeat: Infinity, ease: "linear" },
+                  opacity: { duration: 0.3 },
                 }}
               />
 
@@ -264,7 +250,7 @@ const Contact = () => {
                 animate={focusedField === "name" ? "focus" : "blur"}
               >
                 <label className="block text-sm font-medium text-foreground mb-1.5">
-                  Your Name
+                  Seu Nome
                 </label>
                 <input
                   type="text"
@@ -272,7 +258,7 @@ const Contact = () => {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   onFocus={() => setFocusedField("name")}
                   onBlur={() => setFocusedField(null)}
-                  placeholder="Your Name"
+                  placeholder="Seu Nome"
                   className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                   required
                 />
@@ -285,7 +271,7 @@ const Contact = () => {
                   animate={focusedField === "phone" ? "focus" : "blur"}
                 >
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Phone Number
+                    Telefone
                   </label>
                   <input
                     type="tel"
@@ -293,7 +279,7 @@ const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     onFocus={() => setFocusedField("phone")}
                     onBlur={() => setFocusedField(null)}
-                    placeholder="Phone number"
+                    placeholder="Seu telefone"
                     className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                   />
                 </motion.div>
@@ -302,7 +288,7 @@ const Contact = () => {
                   animate={focusedField === "email" ? "focus" : "blur"}
                 >
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Email Address
+                    Email
                   </label>
                   <input
                     type="email"
@@ -310,7 +296,7 @@ const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     onFocus={() => setFocusedField("email")}
                     onBlur={() => setFocusedField(null)}
-                    placeholder="Email Address"
+                    placeholder="Seu email"
                     className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                     required
                   />
@@ -323,7 +309,7 @@ const Contact = () => {
                 animate={focusedField === "subject" ? "focus" : "blur"}
               >
                 <label className="block text-sm font-medium text-foreground mb-1.5">
-                  Subject
+                  Assunto
                 </label>
                 <select
                   value={formData.subject}
@@ -333,11 +319,11 @@ const Contact = () => {
                   className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-primary"
                   required
                 >
-                  <option value="">Select Subject</option>
-                  <option value="project">Project Inquiry</option>
-                  <option value="job">Job Opportunity</option>
-                  <option value="collaboration">Collaboration</option>
-                  <option value="other">Other</option>
+                  <option value="">Selecione o Assunto</option>
+                  <option value="project">Consulta de Projeto</option>
+                  <option value="job">Oportunidade de Emprego</option>
+                  <option value="collaboration">Colaboração</option>
+                  <option value="other">Outro</option>
                 </select>
               </motion.div>
 
@@ -345,7 +331,7 @@ const Contact = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Preferred Contact Method
+                    Método de Contato Preferido
                   </label>
                   <div className="flex gap-4">
                     <label className="flex items-center gap-2 cursor-pointer group">
@@ -360,7 +346,7 @@ const Contact = () => {
                         className="accent-primary"
                       />
                       <span className="text-muted-foreground text-sm group-hover:text-foreground transition-colors">
-                        Phone
+                        Telefone
                       </span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer group">
@@ -385,7 +371,7 @@ const Contact = () => {
                   animate={focusedField === "hearAbout" ? "focus" : "blur"}
                 >
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    How did you hear about me?
+                    Como me conheceu?
                   </label>
                   <input
                     type="text"
@@ -393,7 +379,7 @@ const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, hearAbout: e.target.value })}
                     onFocus={() => setFocusedField("hearAbout")}
                     onBlur={() => setFocusedField(null)}
-                    placeholder="Friends, Social Media, etc."
+                    placeholder="Amigos, Redes Sociais, etc."
                     className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                   />
                 </motion.div>
@@ -405,35 +391,30 @@ const Contact = () => {
                 animate={focusedField === "message" ? "focus" : "blur"}
               >
                 <label className="block text-sm font-medium text-foreground mb-1.5">
-                  Your Message
+                  Sua Mensagem
                 </label>
                 <textarea
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   onFocus={() => setFocusedField("message")}
                   onBlur={() => setFocusedField(null)}
-                  placeholder="Your Project Idea..."
+                  placeholder="Sua Ideia de Projeto..."
                   rows={4}
                   className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground resize-none"
                   required
                 />
               </motion.div>
 
-              {/* Submit */}
+              {/* Submit Button */}
               <motion.button
                 type="submit"
-                className="group relative flex items-center gap-2 px-6 py-2.5 rounded-lg bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium ml-auto overflow-hidden"
-                whileHover={{ scale: 1.02, boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.5)" }}
+                className="group relative w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium overflow-hidden"
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <motion.span
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.5 }}
-                />
-                <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                <span className="relative">Send Message</span>
+                <span className="relative flex items-center justify-center gap-2">
+                  Enviar Mensagem <Send className="w-4 h-4" />
+                </span>
               </motion.button>
             </motion.form>
           </motion.div>

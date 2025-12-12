@@ -42,9 +42,9 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "Service", href: "#services" },
-    { name: "Projects", href: "#projects" },
+    { name: "Início", href: "#home" },
+    { name: "Serviços", href: "#services" },
+    { name: "Projetos", href: "#projects" },
   ];
 
   const scrollToSection = (href: string) => {
@@ -85,7 +85,7 @@ const Navbar = () => {
                   : "none" 
               }}
             >
-              Portfolio
+              Portfólio
             </motion.span>
           </motion.a>
 
@@ -160,7 +160,7 @@ const Navbar = () => {
                 transition={{ duration: 0.5 }}
               />
               <span className="relative flex items-center gap-2">
-                Request a{" "}
+                Fale Comigo{" "}
                 <motion.span
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 3 }}

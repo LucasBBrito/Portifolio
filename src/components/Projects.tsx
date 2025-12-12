@@ -1,31 +1,31 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ExternalLink, Github, Sparkles } from "lucide-react";
-import { useRef } from "react";
+import { useState } from "react";
 
 const projects = [
   {
-    title: "DEVELOPER PORTFOLIO",
+    title: "PORTFÓLIO DE DESENVOLVEDOR",
     description:
-      "A sleek and responsive portfolio built with React, TypeScript, and Tailwind CSS. It showcases my skills, projects, and services with smooth animations.",
+      "Um portfólio elegante e responsivo construído com React, TypeScript e Tailwind CSS. Apresenta minhas habilidades, projetos e serviços com animações suaves.",
     tags: ["REACT", "TYPESCRIPT", "TAILWIND", "FRAMER-MOTION"],
     liveUrl: "#",
     githubUrl: "#",
     gradient: "from-primary/20 via-accent/10 to-transparent",
   },
   {
-    title: "E-COMMERCE PLATFORM",
+    title: "PLATAFORMA E-COMMERCE",
     description:
-      "A full-stack e-commerce solution with user authentication, product management, shopping cart, and payment integration using Stripe.",
-    tags: ["NEXTJS", "PRISMA", "POSTGRESQL", "STRIPE"],
+      "Uma solução e-commerce full-stack com autenticação de usuários, gerenciamento de produtos, carrinho de compras e integração de pagamento.",
+    tags: ["REACT", "HTML5", "CSS3", "JAVASCRIPT"],
     liveUrl: "#",
     githubUrl: "#",
     gradient: "from-cyan/20 via-primary/10 to-transparent",
   },
   {
-    title: "TASK MANAGEMENT APP",
+    title: "APP DE GERENCIAMENTO DE TAREFAS",
     description:
-      "A collaborative task management application with real-time updates, drag-and-drop functionality, and team workspace features.",
-    tags: ["REACT", "FIREBASE", "TAILWIND", "DND-KIT"],
+      "Uma aplicação de gerenciamento de tarefas colaborativa com atualizações em tempo real, funcionalidade drag-and-drop e recursos de workspace em equipe.",
+    tags: ["REACT", "GIT", "TAILWIND", "JAVASCRIPT"],
     liveUrl: "#",
     githubUrl: "#",
     gradient: "from-green-accent/20 via-cyan/10 to-transparent",
@@ -39,36 +39,10 @@ const ProjectCard = ({
   project: (typeof projects)[0];
   index: number;
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5, -5]), {
-    stiffness: 300,
-    damping: 30,
-  });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), {
-    stiffness: 300,
-    damping: 30,
-  });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      ref={cardRef}
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -77,23 +51,21 @@ const ProjectCard = ({
         delay: index * 0.2,
         ease: [0.215, 0.61, 0.355, 1],
       }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        perspective: 1000,
-      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className="group"
     >
       <motion.div
-        className={`relative rounded-2xl overflow-hidden bg-gradient-to-br ${project.gradient} border border-border/50 transition-all duration-500`}
-        whileHover={{
-          boxShadow: "0 25px 50px -12px hsl(var(--primary) / 0.25)",
+        className={`relative rounded-2xl overflow-hidden bg-gradient-to-br ${project.gradient} border border-border/50 transition-all duration-300`}
+        animate={{
+          boxShadow: isHovered
+            ? "0 25px 50px -12px hsl(var(--primary) / 0.25)"
+            : "0 0 0 0 transparent",
+          y: isHovered ? -5 : 0,
         }}
+        transition={{ duration: 0.3 }}
       >
-        {/* Animated border gradient */}
+        {/* Animated border gradient - only on hover */}
         <motion.div
           className="absolute inset-0 rounded-2xl pointer-events-none"
           style={{
@@ -102,26 +74,28 @@ const ProjectCard = ({
             backgroundSize: "200% 100%",
           }}
           animate={{
-            backgroundPosition: ["200% 0%", "-200% 0%"],
+            backgroundPosition: isHovered ? ["200% 0%", "-200% 0%"] : "200% 0%",
+            opacity: isHovered ? 1 : 0,
           }}
           transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "linear",
+            backgroundPosition: { duration: 3, repeat: Infinity, ease: "linear" },
+            opacity: { duration: 0.3 },
           }}
         />
 
         {/* Spotlight effect on hover */}
         <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          className="absolute inset-0 pointer-events-none"
+          animate={{ opacity: isHovered ? 0.5 : 0 }}
+          transition={{ duration: 0.3 }}
           style={{
-            background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.15), transparent 40%)`,
+            background: `radial-gradient(600px circle at 50% 50%, hsl(var(--primary) / 0.1), transparent 40%)`,
           }}
         />
 
         <div className="relative flex flex-col md:flex-row gap-6 p-6 md:p-8">
           {/* Content */}
-          <div className="flex-1" style={{ transform: "translateZ(20px)" }}>
+          <div className="flex-1">
             <motion.h3
               className="text-xl md:text-2xl font-bold mb-3"
               initial={{ opacity: 0, x: -20 }}
@@ -165,7 +139,7 @@ const ProjectCard = ({
                   transition={{ duration: 0.5 }}
                 />
                 <span className="relative flex items-center gap-2">
-                  Live view <ExternalLink className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
+                  Ver ao vivo <ExternalLink className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
                 </span>
               </motion.a>
               <motion.a
@@ -181,7 +155,7 @@ const ProjectCard = ({
                   transition={{ duration: 0.5 }}
                 />
                 <span className="relative flex items-center gap-2">
-                  Github Code <Github className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
+                  Código Github <Github className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
                 </span>
               </motion.a>
             </motion.div>
@@ -213,22 +187,21 @@ const ProjectCard = ({
           {/* Preview placeholder */}
           <motion.div
             className="hidden md:flex items-center justify-center w-80 h-48 rounded-xl bg-card/50 border border-border/30 overflow-hidden"
-            style={{ transform: "translateZ(40px)" }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
           >
             <div className="text-center p-4">
               <motion.div
                 className="w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center"
-                animate={{
+                animate={isHovered ? {
                   rotate: [0, 5, -5, 0],
                   scale: [1, 1.05, 1],
-                }}
-                transition={{ duration: 4, repeat: Infinity }}
+                } : {}}
+                transition={{ duration: 2, repeat: isHovered ? Infinity : 0 }}
               >
                 <span className="text-2xl">🚀</span>
               </motion.div>
-              <p className="text-xs text-muted-foreground">Project Preview</p>
+              <p className="text-xs text-muted-foreground">Preview do Projeto</p>
             </div>
           </motion.div>
         </div>
@@ -255,13 +228,13 @@ const Projects = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="text-foreground">Where Code Meets </span>
+            <span className="text-foreground">Onde Código Encontra </span>
             <motion.span
               className="text-primary inline-block"
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              Creativity
+              Criatividade
             </motion.span>
             <span className="ml-2">💻</span>
             <motion.span
@@ -278,9 +251,9 @@ const Projects = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            This is where I share the projects I've built, combining innovation with clean,
-            efficient code. Every project is an opportunity to push boundaries and create
-            something meaningful.
+            Aqui compartilho os projetos que construí, combinando inovação com código
+            limpo e eficiente. Cada projeto é uma oportunidade de ultrapassar limites
+            e criar algo significativo.
           </motion.p>
         </motion.div>
 
