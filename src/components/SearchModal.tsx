@@ -1,34 +1,85 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+interface SearchItem {
+  label: string;
+  type: "page" | "project" | "service";
+  href?: string;
+  description?: string;
+}
+
 const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   const [query, setQuery] = useState("");
+  const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
 
-  const suggestions = [
-    { label: "Home", href: "#home" },
-    { label: "Services", href: "#services" },
-    { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
-    { label: "Skills", href: "#skills" },
+  // Static pages and services
+  const staticItems: SearchItem[] = [
+    { label: "Início", type: "page", href: "#home" },
+    { label: "Serviços", type: "page", href: "#services" },
+    { label: "Projetos", type: "page", href: "#projects" },
+    { label: "Contato", type: "page", href: "#contact" },
+    { label: "Habilidades", type: "page", href: "#skills" },
+    { label: "Desenvolvimento Frontend", type: "service", description: "Interfaces modernas e responsivas" },
+    { label: "Desenvolvimento Backend", type: "service", description: "APIs e serviços escaláveis" },
+    { label: "Consultoria Técnica", type: "service", description: "Arquitetura e melhores práticas" },
   ];
 
-  const filteredSuggestions = suggestions.filter((s) =>
-    s.label.toLowerCase().includes(query.toLowerCase())
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data } = await supabase
+        .from("projects")
+        .select("title, description");
+      
+      const projectItems: SearchItem[] = (data || []).map((p) => ({
+        label: p.title,
+        type: "project" as const,
+        description: p.description,
+        href: "#projects",
+      }));
+
+      setSearchItems([...staticItems, ...projectItems]);
+    };
+
+    if (isOpen) {
+      fetchProjects();
+    }
+  }, [isOpen]);
+
+  const filteredItems = searchItems.filter(
+    (item) =>
+      item.label.toLowerCase().includes(query.toLowerCase()) ||
+      item.description?.toLowerCase().includes(query.toLowerCase())
   );
 
-  const handleNavigate = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const handleNavigate = (href?: string) => {
+    if (href) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
     onClose();
     setQuery("");
+  };
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case "page":
+        return "Página";
+      case "project":
+        return "Projeto";
+      case "service":
+        return "Serviço";
+      default:
+        return type;
+    }
   };
 
   return (
@@ -54,7 +105,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                 <Search className="w-5 h-5 text-muted-foreground" />
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder="Pesquisar páginas, projetos, serviços..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none"
@@ -70,23 +121,29 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
               {/* Suggestions */}
               <div className="p-2 max-h-64 overflow-y-auto">
-                {filteredSuggestions.length > 0 ? (
-                  filteredSuggestions.map((suggestion, index) => (
+                {filteredItems.length > 0 ? (
+                  filteredItems.map((item, index) => (
                     <motion.button
-                      key={suggestion.href}
-                      onClick={() => handleNavigate(suggestion.href)}
+                      key={`${item.type}-${item.label}`}
+                      onClick={() => handleNavigate(item.href)}
                       className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-muted text-left transition-colors group"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      transition={{ delay: index * 0.03 }}
                     >
-                      <span className="text-foreground">{suggestion.label}</span>
+                      <div>
+                        <span className="text-foreground block">{item.label}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {getTypeLabel(item.type)}
+                          {item.description && ` • ${item.description.substring(0, 40)}...`}
+                        </span>
+                      </div>
                       <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                     </motion.button>
                   ))
                 ) : (
                   <p className="text-center text-muted-foreground py-4">
-                    No results found
+                    Nenhum resultado encontrado
                   </p>
                 )}
               </div>
@@ -94,10 +151,10 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               {/* Footer */}
               <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-muted/30">
                 <span className="text-xs text-muted-foreground">
-                  Press <kbd className="px-1.5 py-0.5 bg-muted rounded text-xs">ESC</kbd> to close
+                  Pressione <kbd className="px-1.5 py-0.5 bg-muted rounded text-xs">ESC</kbd> para fechar
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  <kbd className="px-1.5 py-0.5 bg-muted rounded text-xs">↵</kbd> to select
+                  <kbd className="px-1.5 py-0.5 bg-muted rounded text-xs">↵</kbd> para selecionar
                 </span>
               </div>
             </div>

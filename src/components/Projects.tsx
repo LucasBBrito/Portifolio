@@ -1,45 +1,33 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { ExternalLink, Github, Sparkles, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
-const projects = [
-  {
-    title: "PORTFÓLIO DE DESENVOLVEDOR",
-    description:
-      "Um portfólio elegante e responsivo construído com React, TypeScript e Tailwind CSS. Apresenta minhas habilidades, projetos e serviços com animações suaves.",
-    tags: ["REACT", "TYPESCRIPT", "TAILWIND", "FRAMER-MOTION"],
-    liveUrl: "#",
-    githubUrl: "#",
-    gradient: "from-primary/20 via-accent/10 to-transparent",
-  },
-  {
-    title: "PLATAFORMA E-COMMERCE",
-    description:
-      "Uma solução e-commerce full-stack com autenticação de usuários, gerenciamento de produtos, carrinho de compras e integração de pagamento.",
-    tags: ["REACT", "HTML5", "CSS3", "JAVASCRIPT"],
-    liveUrl: "#",
-    githubUrl: "#",
-    gradient: "from-cyan/20 via-primary/10 to-transparent",
-  },
-  {
-    title: "APP DE GERENCIAMENTO DE TAREFAS",
-    description:
-      "Uma aplicação de gerenciamento de tarefas colaborativa com atualizações em tempo real, funcionalidade drag-and-drop e recursos de workspace em equipe.",
-    tags: ["REACT", "GIT", "TAILWIND", "JAVASCRIPT"],
-    liveUrl: "#",
-    githubUrl: "#",
-    gradient: "from-green-accent/20 via-cyan/10 to-transparent",
-  },
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  techs: string[];
+  image: string | null;
+  github: string | null;
+  live: string | null;
+}
+
+const gradients = [
+  "from-primary/20 via-accent/10 to-transparent",
+  "from-cyan/20 via-primary/10 to-transparent",
+  "from-green-accent/20 via-cyan/10 to-transparent",
 ];
 
 const ProjectCard = ({
   project,
   index,
 }: {
-  project: (typeof projects)[0];
+  project: Project;
   index: number;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const gradient = gradients[index % gradients.length];
 
   return (
     <motion.div
@@ -56,7 +44,7 @@ const ProjectCard = ({
       className="group"
     >
       <motion.div
-        className={`relative rounded-2xl overflow-hidden bg-gradient-to-br ${project.gradient} border border-border/50 transition-all duration-300`}
+        className={`relative rounded-2xl overflow-hidden bg-gradient-to-br ${gradient} border border-border/50 transition-all duration-300`}
         animate={{
           boxShadow: isHovered
             ? "0 25px 50px -12px hsl(var(--primary) / 0.25)"
@@ -126,38 +114,46 @@ const ProjectCard = ({
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 + 0.3 }}
             >
-              <motion.a
-                href={project.liveUrl}
-                className="group/btn relative flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border text-foreground text-sm overflow-hidden"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <motion.span
-                  className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.5 }}
-                />
-                <span className="relative flex items-center gap-2">
-                  Ver ao vivo <ExternalLink className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
-                </span>
-              </motion.a>
-              <motion.a
-                href={project.githubUrl}
-                className="group/btn relative flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border text-foreground text-sm overflow-hidden"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <motion.span
-                  className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.5 }}
-                />
-                <span className="relative flex items-center gap-2">
-                  Código Github <Github className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
-                </span>
-              </motion.a>
+              {project.live && (
+                <motion.a
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/btn relative flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border text-foreground text-sm overflow-hidden"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <motion.span
+                    className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <span className="relative flex items-center gap-2">
+                    Ver ao vivo <ExternalLink className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
+                  </span>
+                </motion.a>
+              )}
+              {project.github && (
+                <motion.a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/btn relative flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border text-foreground text-sm overflow-hidden"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <motion.span
+                    className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <span className="relative flex items-center gap-2">
+                    Código Github <Github className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
+                  </span>
+                </motion.a>
+              )}
             </motion.div>
 
             {/* Tags */}
@@ -168,7 +164,7 @@ const ProjectCard = ({
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 + 0.4 }}
             >
-              {project.tags.map((tag, tagIndex) => (
+              {project.techs.map((tag, tagIndex) => (
                 <motion.span
                   key={tag}
                   className="px-3 py-1 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/30"
@@ -190,19 +186,27 @@ const ProjectCard = ({
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="text-center p-4">
-              <motion.div
-                className="w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center"
-                animate={isHovered ? {
-                  rotate: [0, 5, -5, 0],
-                  scale: [1, 1.05, 1],
-                } : {}}
-                transition={{ duration: 2, repeat: isHovered ? Infinity : 0 }}
-              >
-                <span className="text-2xl">🚀</span>
-              </motion.div>
-              <p className="text-xs text-muted-foreground">Preview do Projeto</p>
-            </div>
+            {project.image ? (
+              <img 
+                src={project.image} 
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="text-center p-4">
+                <motion.div
+                  className="w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center"
+                  animate={isHovered ? {
+                    rotate: [0, 5, -5, 0],
+                    scale: [1, 1.05, 1],
+                  } : {}}
+                  transition={{ duration: 2, repeat: isHovered ? Infinity : 0 }}
+                >
+                  <span className="text-2xl">🚀</span>
+                </motion.div>
+                <p className="text-xs text-muted-foreground">Preview do Projeto</p>
+              </div>
+            )}
           </motion.div>
         </div>
       </motion.div>
@@ -211,6 +215,29 @@ const ProjectCard = ({
 };
 
 const Projects = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("projects")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+        setProjects(data || []);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
   return (
     <section id="projects" className="relative py-24">
       <div className="container mx-auto px-4">
@@ -259,9 +286,19 @@ const Projects = () => {
 
         {/* Projects Grid */}
         <div className="space-y-8 max-w-5xl mx-auto">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
-          ))}
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : projects.length > 0 ? (
+            projects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))
+          ) : (
+            <p className="text-center text-muted-foreground py-10">
+              Nenhum projeto encontrado.
+            </p>
+          )}
         </div>
       </div>
     </section>

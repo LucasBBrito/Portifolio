@@ -1,37 +1,55 @@
 import { motion } from "framer-motion";
-import { MapPin, Mail, Phone, Send, Zap } from "lucide-react";
+import { MapPin, Mail, Phone, Send, Zap, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
     email: "",
-    subject: "",
-    contactMethod: "email",
-    hearAbout: "",
     message: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [isFormHovered, setIsFormHovered] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Mensagem enviada!",
-      description: "Obrigado por entrar em contato. Retornarei em breve.",
-    });
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      subject: "",
-      contactMethod: "email",
-      hearAbout: "",
-      message: "",
-    });
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Mensagem enviada!",
+        description: "Obrigado por entrar em contato. Retornarei em breve.",
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Erro ao enviar",
+        description: "Houve um problema ao enviar sua mensagem. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputVariants = {
@@ -261,129 +279,30 @@ const Contact = () => {
                   placeholder="Seu Nome"
                   className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                   required
+                  disabled={isSubmitting}
                 />
               </motion.div>
 
-              {/* Phone & Email */}
-              <div className="grid grid-cols-2 gap-4">
-                <motion.div
-                  variants={inputVariants}
-                  animate={focusedField === "phone" ? "focus" : "blur"}
-                >
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Telefone
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    onFocus={() => setFocusedField("phone")}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="Seu telefone"
-                    className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
-                  />
-                </motion.div>
-                <motion.div
-                  variants={inputVariants}
-                  animate={focusedField === "email" ? "focus" : "blur"}
-                >
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    onFocus={() => setFocusedField("email")}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="Seu email"
-                    className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
-                    required
-                  />
-                </motion.div>
-              </div>
-
-              {/* Subject */}
+              {/* Email */}
               <motion.div
                 variants={inputVariants}
-                animate={focusedField === "subject" ? "focus" : "blur"}
+                animate={focusedField === "email" ? "focus" : "blur"}
               >
                 <label className="block text-sm font-medium text-foreground mb-1.5">
-                  Assunto
+                  Email
                 </label>
-                <select
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  onFocus={() => setFocusedField("subject")}
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onFocus={() => setFocusedField("email")}
                   onBlur={() => setFocusedField(null)}
-                  className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-primary"
+                  placeholder="Seu email"
+                  className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
                   required
-                >
-                  <option value="">Selecione o Assunto</option>
-                  <option value="project">Consulta de Projeto</option>
-                  <option value="job">Oportunidade de Emprego</option>
-                  <option value="collaboration">Colaboração</option>
-                  <option value="other">Outro</option>
-                </select>
+                  disabled={isSubmitting}
+                />
               </motion.div>
-
-              {/* Contact Method & How did you hear */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Método de Contato Preferido
-                  </label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center gap-2 cursor-pointer group">
-                      <input
-                        type="radio"
-                        name="contactMethod"
-                        value="phone"
-                        checked={formData.contactMethod === "phone"}
-                        onChange={(e) =>
-                          setFormData({ ...formData, contactMethod: e.target.value })
-                        }
-                        className="accent-primary"
-                      />
-                      <span className="text-muted-foreground text-sm group-hover:text-foreground transition-colors">
-                        Telefone
-                      </span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer group">
-                      <input
-                        type="radio"
-                        name="contactMethod"
-                        value="email"
-                        checked={formData.contactMethod === "email"}
-                        onChange={(e) =>
-                          setFormData({ ...formData, contactMethod: e.target.value })
-                        }
-                        className="accent-primary"
-                      />
-                      <span className="text-muted-foreground text-sm group-hover:text-foreground transition-colors">
-                        Email
-                      </span>
-                    </label>
-                  </div>
-                </div>
-                <motion.div
-                  variants={inputVariants}
-                  animate={focusedField === "hearAbout" ? "focus" : "blur"}
-                >
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Como me conheceu?
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.hearAbout}
-                    onChange={(e) => setFormData({ ...formData, hearAbout: e.target.value })}
-                    onFocus={() => setFocusedField("hearAbout")}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="Amigos, Redes Sociais, etc."
-                    className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
-                  />
-                </motion.div>
-              </div>
 
               {/* Message */}
               <motion.div
@@ -402,18 +321,36 @@ const Contact = () => {
                   rows={4}
                   className="w-full px-4 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground resize-none"
                   required
+                  disabled={isSubmitting}
                 />
               </motion.div>
 
               {/* Submit Button */}
               <motion.button
                 type="submit"
-                className="group relative w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium overflow-hidden"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                disabled={isSubmitting}
+                className="group relative w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
               >
+                {/* Shine effect - only on hover */}
+                <motion.span
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                />
                 <span className="relative flex items-center justify-center gap-2">
-                  Enviar Mensagem <Send className="w-4 h-4" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      Enviar Mensagem <Send className="w-4 h-4" />
+                    </>
+                  )}
                 </span>
               </motion.button>
             </motion.form>
