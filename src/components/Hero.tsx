@@ -46,7 +46,6 @@ const Hero = () => {
   });
 
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <section
@@ -54,7 +53,7 @@ const Hero = () => {
       id="home"
       className="relative min-h-screen flex items-center justify-center pt-24 pb-16"
     >
-      <motion.div style={{ opacity }} className="container mx-auto px-4">
+      <div className="container mx-auto px-4">
         <div className="text-center max-w-4xl mx-auto">
           {/* Greeting */}
           <motion.div
@@ -266,7 +265,7 @@ const Hero = () => {
 
         {/* Timeline */}
         <Timeline />
-      </motion.div>
+      </div>
     </section>
   );
 };
