@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Download, Sparkles } from "lucide-react";
+import profilePhoto from "@/assets/profile-photo.jpg";
 import { useEffect, useState, useRef } from "react";
 
 // Typewriter effect component
@@ -177,7 +178,7 @@ const Hero = () => {
             ease: "easeInOut"
           }}>
               <div className="w-full h-full rounded-lg bg-secondary border border-border flex items-center justify-center overflow-hidden relative">
-                <div className="text-6xl">​</div>
+                <img src={profilePhoto} alt="Lucas Barros" className="w-full h-full object-cover" />
                 {/* Scan line effect */}
                 <motion.div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/10 to-transparent" animate={{
                 y: ["-100%", "200%"]
