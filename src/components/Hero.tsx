@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Download, Sparkles } from "lucide-react";
+import { Linkedin, Sparkles } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import { useEffect, useState, useRef } from "react";
 
@@ -206,33 +206,49 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Resume Button */}
-          <motion.button initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.6,
-          delay: 1.8
-        }} className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium overflow-hidden" whileHover={{
-          scale: 1.05
-        }} whileTap={{
-          scale: 0.95
-        }}>
+          {/* LinkedIn Button */}
+          <motion.a
+            href="https://linkedin.com/in/lucasbarros"
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{
+              opacity: 0,
+              y: 20
+            }}
+            animate={{
+              opacity: 1,
+              y: 0
+            }}
+            transition={{
+              duration: 0.6,
+              delay: 1.8
+            }}
+            className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#0A66C2] text-white font-medium overflow-hidden"
+            whileHover={{
+              scale: 1.05
+            }}
+            whileTap={{
+              scale: 0.95
+            }}
+          >
             {/* Button glow on hover */}
-            <motion.span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/25 to-primary/0" initial={{
-            x: "-100%"
-          }} whileHover={{
-            x: "100%"
-          }} transition={{
-            duration: 0.5
-          }} />
+            <motion.span
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
+              initial={{
+                x: "-100%"
+              }}
+              whileHover={{
+                x: "100%"
+              }}
+              transition={{
+                duration: 0.5
+              }}
+            />
             <span className="relative z-10 flex items-center gap-2">
-              Currículo <Download className="w-4 h-4 group-hover:animate-bounce" />
+              <Linkedin className="w-4 h-4" />
+              LinkedIn
             </span>
-          </motion.button>
+          </motion.a>
         </div>
 
         {/* Work & Education Section Header */}
