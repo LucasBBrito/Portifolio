@@ -334,7 +334,7 @@ const Timeline = () => {
     description: "Desenvolvendo sites responsivos, implementando designs do Figma, colaborando em UI/UX, usando React e Tailwind CSS.",
     side: "left"
   }, {
-    period: "2022 - 2024",
+    period: "2025 - 2026",
     title: "Curso de Ciência da Computação",
     type: "",
     company: "Universidade",
