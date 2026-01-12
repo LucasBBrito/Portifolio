@@ -208,7 +208,7 @@ const Hero = () => {
 
           {/* LinkedIn Button */}
           <motion.a
-            href="https://linkedin.com/in/lucasbarros"
+            href="https://www.linkedin.com/in/lucasbbritodev/"
             target="_blank"
             rel="noopener noreferrer"
             initial={{
