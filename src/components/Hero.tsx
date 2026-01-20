@@ -327,33 +327,26 @@ const Hero = () => {
 };
 const Timeline = () => {
   const experiences = [{
-    period: "2024 - Presente",
-    title: "Desenvolvedor Front-End Júnior",
-    type: "Tempo Integral",
-    company: "Empresa de Tecnologia",
-    description: "Desenvolvendo sites responsivos, implementando designs do Figma, colaborando em UI/UX, usando React e Tailwind CSS.",
+    period: "2020 – 2025",
+    title: "Entusiasta de Programação",
+    type: "",
+    company: "",
+    description: "Início da jornada na programação, explorando conceitos fundamentais e lógica. Aprendizado autodidata por meio de cursos online, tutoriais e prática constante. Foco em desenvolvimento pessoal e construção de base técnica sólida.",
     side: "left"
   }, {
-    period: "2025 - 2026",
-    title: "Curso de Ciência da Computação",
+    period: "2025 – 2026",
+    title: "Aluno de Programação de Computadores – Senac-AL",
     type: "",
-    company: "Universidade",
-    description: "Cursando graduação em Ciência da Computação, focado em desenvolver habilidades de programação e desenvolvimento de software.",
+    company: "",
+    description: "Formação técnica voltada ao desenvolvimento de software e fundamentos da computação. Contato prático com linguagens de programação, bancos de dados e boas práticas. Experiência acadêmica aliada a projetos práticos e resolução de problemas reais.",
     side: "right"
   }, {
-    period: "2021 - 2023",
-    title: "Desenvolvedor Web",
-    type: "Tempo Integral",
-    company: "Estúdio de Design",
-    description: "Desenvolvendo e mantendo aplicações web usando HTML, CSS, JavaScript e tecnologias relacionadas.",
+    period: "2026 – ∞",
+    title: "Evolução Contínua em Programação",
+    type: "",
+    company: "",
+    description: "Aperfeiçoamento constante de habilidades técnicas e novas tecnologias. Desenvolvimento de projetos pessoais e profissionais de forma contínua. Busca por inovação, crescimento profissional e excelência em programação.",
     side: "left"
-  }, {
-    period: "2018 - 2021",
-    title: "Bacharelado",
-    type: "",
-    company: "Universidade",
-    description: "Formado em Bacharelado em Aplicações de Computação, construindo a base para uma carreira em tecnologia.",
-    side: "right"
   }];
   const timelineRef = useRef<HTMLDivElement>(null);
   const {
